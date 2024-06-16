@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .calculator{
+            width: 250px;
+            background-color: black;
+            padding-bottom: 10px;
+        }
+
+        .calculator-header{
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            padding: 5px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .calculator-body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            row-gap: 5px;
+            column-gap: 10px;
+        }
+
+        .button {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="calculator-header">Cal-Wardo</div>
+        <div class="calculator-body">
+            <input type="text" id="inputBox" readonly>
+            <div class="button-grid" id="buttonGrid">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const inputBox = document.getElementById('inputBox');
+        const buttonGrid = document.getElementById('buttonGrid');
+        inputBox.value='0';
+        inputBox.style.width="90%";
+        inputBox.style.height="40px";
+        inputBox.style.marginBottom="10px";
+        inputBox.style.fontSize="24px";
+
+        const buttons = [
+            'C', 'X', '%', '/',
+            '7', '8', '9', '*',
+            '4', '5', '6', '-',
+            '1', '2', '3', '+',
+            '0', '.', '='
+        ];
+
+        buttons.forEach(buttonText => {
+            const button = document.createElement('button');
+            button.textContent = buttonText;
+            if(buttonText=='/'||buttonText=='/'||buttonText=='*'||buttonText=='-'||buttonText=='+'||buttonText=='=')
+            {
+               button.style.backgroundColor='red';
+               button.style.color='white';
+            }
+            button.classList.add('button');
+            button.addEventListener('click', () => {
+                handleButtonClick(buttonText);
+            });
+            buttonGrid.appendChild(button);
+        });
+
+        function handleButtonClick(buttonText) {
+            if (buttonText === '=') {
+                try {
+                    inputBox.value = eval(inputBox.value);
+                } catch (error) {
+                    inputBox.value = 'Error';
+                }
+            }
+            else if(buttonText=='C')
+            {
+                inputBox.value='0';
+            }
+            else if(buttonText== 'X')
+            {
+                inputBox.value=inputBox.value.slice(0,-1);
+            } 
+            else  {
+                inputBox.value += buttonText;
+            }
+        }
+    </script>
+</body>
+</html>
